@@ -1,0 +1,84 @@
+
+# C# 퀵정렬 기초 코드
+
+**동작순서**
+[나만알아볼수있는 퀵 정렬 동작순서](https://github.com/dkssud664-byte/Practice-Programming/blob/main/03.%20%EC%B0%B8%EA%B3%A0%EC%9E%90%EB%A3%8C/01.%20C%23/00.%20Images/01.%20%EB%82%98%EB%A7%8C%20%EC%95%8C%EC%95%84%EB%B3%BC%20%EC%88%98%20%EC%9E%88%EB%8A%94%20%ED%80%B5%20%EC%A0%95%EB%A0%AC%20%EB%8F%99%EC%9E%91%EC%88%9C%EC%84%9C.png)
+
+```csharp
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace QuickSort
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = new int[] { 9, 8, 7, 6, 5, 4 };
+
+
+            QuickSort(arr);
+
+            foreach(int i in arr)
+            {
+                Console.Write(i);
+                Console.Write(" ");
+            }
+        }
+
+        //처음부터 끝까지 검사
+        public static void QuickSort(int[] arr) => QuickSort(arr, 0, arr.Length - 1);
+        //정렬
+        private static void QuickSort(int[] arr, int left, int right)
+        {
+            //재귀 탈출조건
+            if(left >= right)
+            {
+                return;
+            }
+            //pivot기준 좌우로 정렬, pivot변경
+            int pivotIndex = Partition(arr, left, right);
+
+            //재귀로 정렬 반복
+            QuickSort(arr, left, pivotIndex - 1);
+            QuickSort(arr, pivotIndex + 1, right);
+
+        }
+
+        private static int Partition(int[] arr, int left, int right)
+        {
+            //마지막 인덱스를 피봇으로 설정
+            int pivot = arr[right];
+            //for문 밖에서 쓰기 위한 인덱스 변수
+            int i = left - 1;
+
+            for(int j = left; j < right; j++)
+            {
+                //작으면 스왑
+                if (arr[j] < pivot)
+                {
+                    i++;
+                    Swap(arr, i, j);
+                }
+            }
+            //피봇 스왑
+            Swap(arr, i + 1, right);
+
+            //다음 피봇 인덱스 반환
+            return i + 1;
+        }
+
+        private static void Swap(int[] arr, int a, int b)
+        {
+            int temp = arr[a];
+            arr[a] = arr[b];
+            arr[b] = temp;
+        }
+
+    }
+}
+```
